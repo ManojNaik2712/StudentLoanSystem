@@ -31,6 +31,8 @@ public class User implements UserDetails {
     private Double cgpa;
     @Enumerated(value = EnumType.STRING)
     private Roles role;
+    @OneToMany(mappedBy = "user")
+    private List<Loan> loans;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

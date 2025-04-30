@@ -1,10 +1,12 @@
 package com.studentloansystem.Service;
 
 import com.studentloansystem.Config.JwtUtil;
+import com.studentloansystem.DTO.GithubProfile;
 import com.studentloansystem.DTO.LoginRequest;
 import com.studentloansystem.Models.User;
 import com.studentloansystem.Repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,6 +20,10 @@ import java.util.Optional;
 public class UserService {
     @Autowired
     UserRepo userRepo;
+
+    @Autowired
+    GithubService githubService;
+
     @Autowired
     AuthenticationManager authenticationManager;
 
@@ -28,8 +34,8 @@ public class UserService {
     JwtUtil jwtUtil;
 
     public User save(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepo.save(user);
-
     }
 
     public User getUser(Long id) {
@@ -57,4 +63,6 @@ public class UserService {
             return "Error: " + e.getMessage();
         }
     }
+
+
 }
