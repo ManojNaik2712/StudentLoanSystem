@@ -1,4 +1,4 @@
-package com.studentloansystem.DTO;
+package com.studentloansystem.Enums;
 
 public enum LoanStatus {
     PENDING,

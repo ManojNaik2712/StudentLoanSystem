@@ -21,12 +21,10 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String firstName;
     private String LastName;
     private String email;
     private String githubUsername;
-    private String linkedProfile;
     private String password;
     private Double cgpa;
     @Enumerated(value = EnumType.STRING)

@@ -27,11 +27,13 @@ public class SecurityConfig {
     JwtFIlter jwtFIlter;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
-        httpSecurity.authorizeHttpRequests(auth->auth
-                        .requestMatchers("/register","/login").permitAll()
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity.authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/register", "/login").permitAll()
+                        .requestMatchers("/applyloan").hasAuthority("STUDENT")
                         .anyRequest().authenticated())
-                .httpBasic(httpBasic ->{})
+                .httpBasic(httpBasic -> {
+                })
                 .csrf(CsrfConfigurer::disable)
                 .authenticationProvider(authenticationProvider())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -40,8 +42,8 @@ public class SecurityConfig {
     }
 
 
-    public AuthenticationProvider authenticationProvider(){
-        DaoAuthenticationProvider provider=new DaoAuthenticationProvider();
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(passwordEncoder);
         provider.setUserDetailsService(userDetailsService);
         return provider;

@@ -1,6 +1,6 @@
 package com.studentloansystem.Models;
 
-import com.studentloansystem.DTO.LoanStatus;
+import com.studentloansystem.Enums.LoanStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,7 +27,7 @@ public class Loan {
     private LoanStatus status;
     @CreationTimestamp
     private Date createdAt;
-    private int score;
+    private Double score;
     @ManyToOne
     @JoinColumn
     private User user;

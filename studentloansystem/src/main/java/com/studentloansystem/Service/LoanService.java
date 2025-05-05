@@ -1,7 +1,7 @@
 package com.studentloansystem.Service;
 
 import com.studentloansystem.DTO.GithubProfile;
-import com.studentloansystem.DTO.LoanStatus;
+import com.studentloansystem.Enums.LoanStatus;
 import com.studentloansystem.Models.Loan;
 import com.studentloansystem.Models.User;
 import com.studentloansystem.Repo.LoanRepo;
@@ -21,34 +21,30 @@ public class LoanService {
     @Autowired
     LoanRepo loanRepo;
 
-    public String processLoan(String email) {
+    public double processLoan(String email) {
         User user = (User) userRepo.findByEmail(email);
+        Double cgpa = user.getCgpa();
         String githubUsername = user.getGithubUsername();
         GithubProfile githubProfile = githubService.getProfile(githubUsername);
 
-        int score=calculate(githubProfile);
-        double amount=calculateLoan(score);
-        double interestRate=calculateInterest(amount);
-        Loan loan=Loan.builder()
-                .amount(amount)
-                .interestRate(interestRate).status(LoanStatus.PENDING)
-                .user(user)
-                .score(score).build();
+        double score = calculate(githubProfile, cgpa);
+        double amount = calculateLoan(score);
+        double interestRate = calculateInterest(amount);
+        Loan loan = Loan.builder().amount(amount).interestRate(interestRate).status(LoanStatus.PENDING).user(user).status(LoanStatus.APPROVED).score(score).build();
         loanRepo.save(loan);
-        return "Loan is in process";
+        return amount;
     }
 
-    private Double calculateInterest(Double score) {
+    private double calculateInterest(Double score) {
         return score > 50 ? 5.5 : 8.0;
     }
 
-    private double calculateLoan(int score) {
-        return  score*1000;
+    private double calculateLoan(double score) {
+        return score * 1000;
     }
 
-    private int calculate(GithubProfile githubProfile) {
-        return githubProfile.getPublic_repos() + githubProfile.getFollowers()*2;
+    private double calculate(GithubProfile githubProfile, Double cgpa) {
+        return githubProfile.getPublic_repos() + githubProfile.getFollowers() * cgpa / 10;
     }
-
 
 }

@@ -10,8 +10,8 @@ public class GithubService {
     @Autowired
     RestTemplate restTemplate;
 
-    public GithubProfile getProfile(String userName){
-        String url="https://api.github.com/users/" + userName;
+    public GithubProfile getProfile(String userName) {
+        String url = "https://api.github.com/users/" + userName;
         return restTemplate.getForObject(url, GithubProfile.class);
     }
 }

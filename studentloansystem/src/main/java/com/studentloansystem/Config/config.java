@@ -9,11 +9,12 @@ import org.springframework.web.client.RestTemplate;
 @Configuration
 public class config {
     @Bean
-    PasswordEncoder getPe(){
+    PasswordEncoder getPe() {
         return new BCryptPasswordEncoder();
     }
+
     @Bean
-    RestTemplate getRestTemplate(){
+    RestTemplate getRestTemplate() {
         return new RestTemplate();
     }
 
